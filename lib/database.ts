@@ -20,31 +20,22 @@ export function initDatabase() {
       );
     `);
   } catch (error) {
-    console.error("There were problems initializing the database: ", error);
-    throw error;
+    console.error("Database initialization failed: ", error);
   }
 }
 
 export function addTask(title: string, description: string, status: string) {
   try {
-    db.runSync(
-      "INSERT INTO tasks (title, description, status) VALUES (?, ?, ?)",
-      [title, description, status]
-    );
+    db.runSync("INSERT INTO tasks (title, description, status) VALUES (?, ?, ?)", [title, description, status]);
   } catch (error) {
-    console.error("Error adding task: ", error);
     throw error;
   }
 }
 
 export function updateTask(id: number, title: string, description: string, status: string) {
   try {
-    db.runSync(
-      "UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ?",
-      [title, description, status, id]
-    );
+    db.runSync("UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ?", [title, description, status, id]);
   } catch (error) {
-    console.error("Error updating task: ", error);
     throw error;
   }
 }
@@ -53,7 +44,6 @@ export function deleteTask(id: number) {
   try {
     db.runSync("DELETE FROM tasks WHERE id = ?", [id]);
   } catch (error) {
-    console.error("Error deleting task: ", error);
     throw error;
   }
 }
@@ -62,7 +52,6 @@ export function getTasks(): Task[] {
   try {
     return db.getAllSync("SELECT * FROM tasks ORDER BY id DESC") as Task[];
   } catch (error) {
-    console.error("Error fetching tasks: ", error);
     throw error;
   }
 }

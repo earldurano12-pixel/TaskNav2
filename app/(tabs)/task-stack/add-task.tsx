@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { addTask } from '../lib/database';
+import { addTask } from '../../../lib/database';
 
 export default function AddTask() {
   const [title, setTitle] = useState('');
