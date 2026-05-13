@@ -1,24 +1,28 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect } from 'react';
+import { initDatabase } from '../lib/database';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+export default function Layout() {
+  useEffect(() => {
+    try {
+      initDatabase();
+    } catch (e) {
+      console.error("Failed to start app database", e);
+    }
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: '#2e7d32' },
+        headerTintColor: '#fff',
+      }}
+    >
+      <Stack.Screen name="index" options={{ title: 'home' }} />
+      <Stack.Screen name="tasks" options={{ title: 'tasks' }} />
+      <Stack.Screen name="add-task" options={{ title: 'add-task' }} />
+      <Stack.Screen name="details" options={{ title: 'details' }} />
+      <Stack.Screen name="edit-task" options={{ title: 'edit-task' }} />
+    </Stack>
   );
 }
